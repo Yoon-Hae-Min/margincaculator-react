@@ -3,7 +3,7 @@ import {
   Col, Container, Nav, Navbar, Row,
 } from 'react-bootstrap';
 
-function AppLayOut({ component }) {
+function AppLayOut({ children }) {
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -17,7 +17,10 @@ function AppLayOut({ component }) {
           </Nav>
         </Container>
       </Navbar>
-      { component }
+      <Container>
+        { children }
+      </Container>
+
     </>
   );
 }
