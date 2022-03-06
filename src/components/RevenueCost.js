@@ -1,7 +1,11 @@
-import React from 'react';
-import { Table } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Table, Button } from 'react-bootstrap';
+import RevenueCostModal from './RevenueCostModal';
 
 function RevenueCost() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleOpen = () => setShow(true);
   return (
     <Table striped bordered hover>
       <thead>
@@ -16,6 +20,12 @@ function RevenueCost() {
           <td>1</td>
           <td>2022-03-24</td>
           <td>1000000</td>
+        </tr>
+        <tr className="text-center">
+          <td colSpan={3}>
+            <Button variant="outline-primary" onClick={handleOpen}>추가하기</Button>
+            <RevenueCostModal show={show} handleClose={handleClose} />
+          </td>
         </tr>
         <tr className="text-center">
           <td colSpan={2}>

@@ -1,7 +1,11 @@
-import React from 'react';
-import { Table } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Table } from 'react-bootstrap';
+import LaborCostModal from './LaborCostModal';
 
 function LaborCost() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleOpen = () => setShow(true);
   return (
     <Table striped bordered hover>
       <thead>
@@ -20,6 +24,12 @@ function LaborCost() {
           <td>9160</td>
           <td>35</td>
           <td>100000</td>
+        </tr>
+        <tr className="text-center">
+          <td colSpan={5}>
+            <Button variant="outline-primary" onClick={handleOpen}>추가하기</Button>
+            <LaborCostModal show={show} handleClose={handleClose} />
+          </td>
         </tr>
         <tr className="text-center">
           <td colSpan={4}>

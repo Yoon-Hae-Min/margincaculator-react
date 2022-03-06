@@ -1,7 +1,11 @@
-import React from 'react';
-import { Table } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Table, Button } from 'react-bootstrap';
+import MaterialCostMoal from './MaterialCostModal';
 
 function MaterialCost() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleOpen = () => setShow(true);
   return (
     <Table striped bordered hover>
       <thead>
@@ -20,6 +24,12 @@ function MaterialCost() {
           <td>5000</td>
           <td>100</td>
           <td>500000</td>
+        </tr>
+        <tr className="text-center">
+          <td colSpan={5}>
+            <Button variant="outline-primary" onClick={handleOpen}>추가하기</Button>
+            <MaterialCostMoal show={show} handleClose={handleClose} />
+          </td>
         </tr>
         <tr className="text-center">
           <td colSpan={4}>
