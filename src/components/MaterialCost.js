@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import MaterialCostMoal from './MaterialCostModal';
 
-function MaterialCost() {
+function MaterialCost({ MaterialData }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
@@ -25,6 +25,15 @@ function MaterialCost() {
           <td>100</td>
           <td>500000</td>
         </tr>
+        {MaterialData && MaterialData.map((item, index) => (
+          <tr>
+            <td>{index}</td>
+            <td>{item.name}</td>
+            <td>{item.unitCost}</td>
+            <td>{item.quantity}</td>
+            <td>{item.totalCost}</td>
+          </tr>
+        ))}
         <tr className="text-center">
           <td colSpan={5}>
             <Button variant="outline-primary" onClick={handleOpen}>추가하기</Button>

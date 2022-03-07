@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Button, Form, Table } from 'react-bootstrap';
 import MaintenanceCostModal from './MaintenanceCostModal';
 import MaterialCost from './MaterialCost';
 
-function MaintenanceCost() {
+function MaintenanceCost({ MaintenanceData }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
@@ -22,8 +22,15 @@ function MaintenanceCost() {
           <td>임대료</td>
           <td>5000</td>
         </tr>
+        {MaintenanceData && MaintenanceData.map((item, index) => (
+          <tr>
+            <td>{index}</td>
+            <td>{item.name}</td>
+            <td>{item.cost}</td>
+          </tr>
+        ))}
         <tr className="text-center">
-          <td colSpan={3}>
+          <td colSpan={4}>
             <Button variant="outline-primary" onClick={handleOpen}>추가하기</Button>
             <MaintenanceCostModal show={show} handleClose={handleClose} />
           </td>

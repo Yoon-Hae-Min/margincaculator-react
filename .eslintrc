@@ -19,5 +19,7 @@
         "no-unused-vars": "warn",
         "linebreak-style": "off",
         "react/prop-types": "warn",
+        "import/no-named-as-default": "off",
+        "no-param-reassign": "off",
     },
 }
