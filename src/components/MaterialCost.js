@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import MaterialCostMoal from './MaterialCostModal';
 
@@ -6,6 +6,10 @@ function MaterialCost({ MaterialData }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    MaterialData.map((item) => setTotal((pre) => pre + item.totalCost));
+  }, [MaterialData]);
   return (
     <Table striped bordered hover>
       <thead>
@@ -18,13 +22,6 @@ function MaterialCost({ MaterialData }) {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>원두</td>
-          <td>5000</td>
-          <td>100</td>
-          <td>500000</td>
-        </tr>
         {MaterialData && MaterialData.map((item, index) => (
           <tr>
             <td>{index}</td>
@@ -45,7 +42,7 @@ function MaterialCost({ MaterialData }) {
             합계
           </td>
           <td>
-            5000
+            {total}
           </td>
         </tr>
       </tbody>

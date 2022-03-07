@@ -68,13 +68,9 @@ const initialState = {
   data: [{
     month: 12,
     Labor: [],
-    LaborSum: 0,
     Maintenance: [],
-    MaintenanceSum: 0,
     Material: [],
-    MaterialSum: 0,
     Revenue: [],
-    RevenueSum: 0,
     Profit: 0,
   }],
 };

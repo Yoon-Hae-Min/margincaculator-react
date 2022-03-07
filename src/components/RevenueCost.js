@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import RevenueCostModal from './RevenueCostModal';
 
@@ -6,6 +6,11 @@ function RevenueCost({ RevenueData }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    RevenueData.map((item) => setTotal((pre) => pre + item.totalCost));
+  }, [RevenueData]);
+  console.log(RevenueData);
   return (
     <Table striped bordered hover>
       <thead>
@@ -16,11 +21,6 @@ function RevenueCost({ RevenueData }) {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>2022-03-24</td>
-          <td>1000000</td>
-        </tr>
         {RevenueData && RevenueData.map((item, index) => (
           <tr>
             <td>{index}</td>
@@ -39,7 +39,7 @@ function RevenueCost({ RevenueData }) {
             합계
           </td>
           <td>
-            1000000
+            {total}
           </td>
         </tr>
       </tbody>

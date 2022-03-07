@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Table } from 'react-bootstrap';
 import MaintenanceCostModal from './MaintenanceCostModal';
 import MaterialCost from './MaterialCost';
@@ -7,6 +7,10 @@ function MaintenanceCost({ MaintenanceData }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    MaintenanceData.map((item) => setTotal((pre) => pre + item.cost));
+  }, [MaintenanceData]);
   return (
     <Table striped bordered hover>
       <thead>
@@ -17,11 +21,6 @@ function MaintenanceCost({ MaintenanceData }) {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>임대료</td>
-          <td>5000</td>
-        </tr>
         {MaintenanceData && MaintenanceData.map((item, index) => (
           <tr>
             <td>{index}</td>
@@ -40,7 +39,7 @@ function MaintenanceCost({ MaintenanceData }) {
             합계
           </td>
           <td>
-            5000
+            {total}
           </td>
         </tr>
       </tbody>

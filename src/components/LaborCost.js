@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, Table } from 'react-bootstrap';
 import LaborCostModal from './LaborCostModal';
@@ -7,6 +7,10 @@ function LaborCost({ LaborData }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    LaborData.map((item) => setTotal((pre) => pre + item.totalCost));
+  }, [LaborData]);
   return (
     <Table striped bordered hover>
       <thead>
@@ -39,7 +43,7 @@ function LaborCost({ LaborData }) {
             합계
           </td>
           <td>
-            100000 원
+            {total}
           </td>
         </tr>
       </tbody>
