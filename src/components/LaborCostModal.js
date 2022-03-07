@@ -5,9 +5,9 @@ import useInput from '../Hooks/useInput';
 import { addLabor } from '../slice/storeSlice';
 
 function LaborCostModal({ show, handleClose }) {
-  const [name, onChangeName] = useInput();
-  const [wage, onChangeWage] = useInput();
-  const [time, onChangeTime] = useInput();
+  const [name, onChangeName] = useInput('');
+  const [wage, onChangeWage] = useInput(0);
+  const [time, onChangeTime] = useInput(0);
   const dispatch = useDispatch();
   const onSubmit = (event) => {
     event.preventDefault();

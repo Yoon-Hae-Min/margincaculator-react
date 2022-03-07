@@ -10,7 +10,7 @@ function MaintenanceCostModal({ show, handleClose }) {
   const dispatch = useDispatch();
   const onSubmit = (event) => {
     event.preventDefault();
-    dispatch(addMaintenance({ name, cost }));
+    dispatch(addMaintenance({ name, cost: parseInt(cost, 10) }));
   };
   return (
     <Modal show={show} onHide={handleClose} centered>

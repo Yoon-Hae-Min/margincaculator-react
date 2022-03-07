@@ -8,9 +8,9 @@ function RevenueCost({ RevenueData }) {
   const handleOpen = () => setShow(true);
   const [total, setTotal] = useState(0);
   useEffect(() => {
+    setTotal(0);
     RevenueData.map((item) => setTotal((pre) => pre + item.totalCost));
   }, [RevenueData]);
-  console.log(RevenueData);
   return (
     <Table striped bordered hover>
       <thead>

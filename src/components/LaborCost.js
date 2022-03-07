@@ -9,6 +9,7 @@ function LaborCost({ LaborData }) {
   const handleOpen = () => setShow(true);
   const [total, setTotal] = useState(0);
   useEffect(() => {
+    setTotal(0);
     LaborData.map((item) => setTotal((pre) => pre + item.totalCost));
   }, [LaborData]);
   return (

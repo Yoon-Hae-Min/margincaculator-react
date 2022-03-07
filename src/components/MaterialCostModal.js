@@ -50,19 +50,19 @@ function MaterialCostMoal({ show, handleClose }) {
           <Modal.Title>추가하기</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Group className="mb-3">
             <Form.Label>재료명</Form.Label>
             <Form.Control type="text" value={name} onChange={onChangeName} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Group className="mb-3">
             <Form.Label>개당 비용</Form.Label>
             <Form.Control type="number" value={unitCost} onChange={onChangeUnitCost} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Group className="mb-3">
             <Form.Label>수량</Form.Label>
             <Form.Control type="number" value={quantity} onChange={onChangeQuantity} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Group className="mb-3">
             <Form.Label>총 비용</Form.Label>
             <Form.Control type="number" value={totalCost} onChange={onChangeTotalCost} />
           </Form.Group>

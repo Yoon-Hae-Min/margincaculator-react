@@ -8,6 +8,7 @@ function MaterialCost({ MaterialData }) {
   const handleOpen = () => setShow(true);
   const [total, setTotal] = useState(0);
   useEffect(() => {
+    setTotal(0);
     MaterialData.map((item) => setTotal((pre) => pre + item.totalCost));
   }, [MaterialData]);
   return (

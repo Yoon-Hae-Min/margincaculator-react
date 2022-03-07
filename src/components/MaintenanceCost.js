@@ -9,6 +9,7 @@ function MaintenanceCost({ MaintenanceData }) {
   const handleOpen = () => setShow(true);
   const [total, setTotal] = useState(0);
   useEffect(() => {
+    setTotal(0);
     MaintenanceData.map((item) => setTotal((pre) => pre + item.cost));
   }, [MaintenanceData]);
   return (

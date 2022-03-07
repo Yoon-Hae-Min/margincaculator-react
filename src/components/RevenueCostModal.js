@@ -7,13 +7,13 @@ import { addRevenue } from '../slice/storeSlice';
 
 function RevenueCostModal({ show, handleClose }) {
   const dispatch = useDispatch();
-  const [date, onChangedate] = useInput();
-  const [totalCost, onChangeTotalCost] = useInput();
   const day = dayjs();
   const today = day.format('YYYY-MM-DD');
+  const [date, onChangedate] = useInput(today);
+  const [totalCost, onChangeTotalCost] = useInput(0);
   const onSubmit = (event) => {
     event.preventDefault();
-    dispatch(addRevenue({ date, totalCost }));
+    dispatch(addRevenue({ date, totalCost: parseInt(totalCost, 10) }));
   };
   return (
     <Modal show={show} onHide={handleClose} centered>
@@ -22,11 +22,11 @@ function RevenueCostModal({ show, handleClose }) {
           <Modal.Title>추가하기</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Group className="mb-3">
             <Form.Label>날짜</Form.Label>
-            <Form.Control type="date" defaultValue={today} onChange={onChangedate} value={date} />
+            <Form.Control type="date" onChange={onChangedate} value={date} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Group className="mb-3">
             <Form.Label>비용</Form.Label>
             <Form.Control type="number" value={totalCost} onChange={onChangeTotalCost} />
           </Form.Group>
