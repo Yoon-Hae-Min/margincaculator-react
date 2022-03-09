@@ -60,7 +60,7 @@ export const addRevenue = createAsyncThunk('POST/addRevenue', async (data, { rej
 const initialState = {
   loading: false,
   error: null,
-  selectedMonth: 12,
+  // selectedMonth: 12,
   storeName: '',
   year: 2022,
   yearProfit: 0,
@@ -136,6 +136,6 @@ export const storeSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = storeSlice.actions;
+// export const { increment, decrement, incrementByAmount } = storeSlice.actions;
 
 export default storeSlice.reducer;
