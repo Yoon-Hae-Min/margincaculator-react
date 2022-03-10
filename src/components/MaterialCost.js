@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import MaterialCostMoal from './MaterialCostModal';
 
-function MaterialCost({ MaterialData }) {
+function MaterialCost({ month }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
-  const [total, setTotal] = useState(0);
-  useEffect(() => {
-    setTotal(0);
-    MaterialData.map((item) => setTotal((pre) => pre + item.totalCost));
-  }, [MaterialData]);
+  const MaterialData = useSelector((state) => state.store.data.Material);
+  const total = useSelector((state) => state.store.data.MaterialSum);
   return (
     <Table striped bordered hover>
       <thead>

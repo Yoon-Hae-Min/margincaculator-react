@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Table } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import MaintenanceCostModal from './MaintenanceCostModal';
 import MaterialCost from './MaterialCost';
 
-function MaintenanceCost({ MaintenanceData }) {
+function MaintenanceCost({ month }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
-  const [total, setTotal] = useState(0);
-  useEffect(() => {
-    setTotal(0);
-    MaintenanceData.map((item) => setTotal((pre) => pre + item.cost));
-  }, [MaintenanceData]);
+  const MaintenanceData = useSelector((state) => state.store.data.Maintenance);
+  const total = useSelector((state) => state.store.data.MaintenanceSum);
   return (
     <Table striped bordered hover>
       <thead>
@@ -26,7 +24,7 @@ function MaintenanceCost({ MaintenanceData }) {
           <tr>
             <td>{index}</td>
             <td>{item.name}</td>
-            <td>{item.cost}</td>
+            <td>{item.totalCost}</td>
           </tr>
         ))}
         <tr className="text-center">

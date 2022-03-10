@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import RevenueCostModal from './RevenueCostModal';
 
-function RevenueCost({ RevenueData }) {
+function RevenueCost({ month }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
-  const [total, setTotal] = useState(0);
-  useEffect(() => {
-    setTotal(0);
-    RevenueData.map((item) => setTotal((pre) => pre + item.totalCost));
-  }, [RevenueData]);
+  const RevenueData = useSelector((state) => state.store.data.Revenue);
+  const total = useSelector((state) => state.store.data.RevenueSum);
   return (
     <Table striped bordered hover>
       <thead>

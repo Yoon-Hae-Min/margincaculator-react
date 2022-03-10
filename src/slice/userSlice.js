@@ -5,7 +5,8 @@ export const storeSlice = createSlice({
   initialState:
   {
     user: null,
-
+    yearProfit: 0,
+    yearRevenue: 0,
   },
   reducers: {
     addLaborCost: (state, action) => {

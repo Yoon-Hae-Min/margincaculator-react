@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Col, Dropdown, DropdownButton, Form, Row, Tabs,
 } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AppLayOut from './components/AppLayOut';
 import LaborCost from './components/LaborCost';
 import MaintenanceCost from './components/MaintenanceCost';
@@ -12,19 +12,21 @@ import MaterialCost from './components/MaterialCost';
 import ResultCost from './components/ResultCost';
 import RevenueCost from './components/RevenueCost';
 import useInput from './Hooks/useInput';
+import { loadMonthData } from './slice/storeSlice';
 
 function App() {
   const day = dayjs();
   const [month, setMonth] = useState(day.month() + 1);// 0~11월
-  const [selectedData, setSelectedData] = useState(null);
-  const data = useSelector((state) => state.store.data);
-  useEffect(() => {
-    setSelectedData(data.find((v) => v.month === month));
-  }, [month, selectedData]);
+  const dispatch = useDispatch();
   const onChangeMonth = (event) => {
     event.preventDefault();
     setMonth(parseInt(event.target.value, 10));
+    dispatch(loadMonthData({ year: 2022, month }));// storeId도 전달
+    // DB에서 데이터를 불러옴
   };
+  useEffect(() => {
+    dispatch(loadMonthData({ year: 2022, month }));
+  }, []);
   return (
     <AppLayOut>
       <Row>
@@ -67,25 +69,23 @@ function App() {
       </Row>
       <Row>
         <Col>
-          {selectedData && (
           <Tabs defaultActiveKey="maintenanceCost" className="mb-3">
             <Tab eventKey="maintenanceCost" title="유지비">
-              <MaintenanceCost MaintenanceData={selectedData.Maintenance} />
+              <MaintenanceCost month={month} />
             </Tab>
             <Tab eventKey="laborCost" title="인건비">
-              <LaborCost LaborData={selectedData.Labor} />
+              <LaborCost month={month} />
             </Tab>
             <Tab eventKey="materialCost" title="재료비">
-              <MaterialCost MaterialData={selectedData.Material} />
+              <MaterialCost month={month} />
             </Tab>
             <Tab eventKey="revenueCost" title="매출">
-              <RevenueCost RevenueData={selectedData.Revenue} />
+              <RevenueCost month={month} />
             </Tab>
             <Tab eventKey="resultCost" title="총합">
-              <ResultCost ResultData={selectedData.Result} />
+              <ResultCost month={month} />
             </Tab>
           </Tabs>
-          )}
         </Col>
       </Row>
 

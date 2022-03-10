@@ -1,7 +1,12 @@
 import React from 'react';
 import { Col, Row, Table } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 function ResultCost() {
+  const LaborSum = useSelector((state) => state.store.data.LaborSum);
+  const MaintenanceSum = useSelector((state) => state.store.data.MaintenanceSum);
+  const MaterialSum = useSelector((state) => state.store.data.MaterialSum);
+  const RevenueSum = useSelector((state) => state.store.data.RevenueSum);
   return (
     <>
       <Row>
@@ -19,17 +24,17 @@ function ResultCost() {
             <tbody>
               <tr>
                 <td>1</td>
-                <td>30000</td>
-                <td>9160</td>
-                <td>35</td>
-                <td>100000</td>
+                <td>{MaintenanceSum}</td>
+                <td>{LaborSum}</td>
+                <td>{MaterialSum}</td>
+                <td>{RevenueSum}</td>
               </tr>
               <tr className="text-center">
                 <td colSpan={4}>
                   순이익
                 </td>
                 <td>
-                  100000
+                  {RevenueSum - (LaborSum + MaintenanceSum + MaterialSum)}
                 </td>
               </tr>
             </tbody>

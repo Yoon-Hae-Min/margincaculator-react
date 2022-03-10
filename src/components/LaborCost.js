@@ -3,15 +3,12 @@ import { useSelector } from 'react-redux';
 import { Button, Table } from 'react-bootstrap';
 import LaborCostModal from './LaborCostModal';
 
-function LaborCost({ LaborData }) {
+function LaborCost({ month }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleOpen = () => setShow(true);
-  const [total, setTotal] = useState(0);
-  useEffect(() => {
-    setTotal(0);
-    LaborData.map((item) => setTotal((pre) => pre + item.totalCost));
-  }, [LaborData]);
+  const LaborData = useSelector((state) => state.store.data.Labor);
+  const total = useSelector((state) => state.store.data.LaborSum);
   return (
     <Table striped bordered hover>
       <thead>

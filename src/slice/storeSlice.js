@@ -1,5 +1,26 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 
+export const loadMonthData = createAsyncThunk('GET/loadMonthData', async (data, { rejectWithValue }) => {
+  try {
+    // axios data를 load하는 코드를 넣어주면됨
+    const result = {
+      year: 2022,
+      month: data.month,
+      Labor: [],
+      LaborSum: 5,
+      Maintenance: [],
+      MaintenanceSum: 0,
+      Material: [],
+      MaterialSum: 0,
+      Revenue: [],
+      RevenueSum: 0,
+    };
+    return result;
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});
+
 export const addLabor = createAsyncThunk('POST/addLabor', async (data, { rejectWithValue }) => {
   try {
     const totalCost = data.wage * data.time;
@@ -36,7 +57,7 @@ export const addMaintenance = createAsyncThunk('POST/addMaintenance', async (dat
     // axios post를 실행해주는 코드를 넣으면됨
     const result = {
       name: data.name,
-      cost: data.cost,
+      totalCost: data.cost,
     };
     return result;
   } catch (error) {
@@ -61,18 +82,21 @@ const initialState = {
   loading: false,
   error: null,
   // selectedMonth: 12,
-  storeName: '',
-  year: 2022,
-  yearProfit: 0,
-  yearRevenue: 0,
-  data: [{
+  storeId: null,
+  data: {
+    year: 2022,
     month: 12,
     Labor: [],
+    LaborSum: 0,
     Maintenance: [],
+    MaintenanceSum: 0,
     Material: [],
+    MaterialSum: 0,
     Revenue: [],
+    RevenueSum: 0,
     Profit: 0,
-  }],
+  },
+
 };
 
 export const storeSlice = createSlice({
@@ -81,13 +105,25 @@ export const storeSlice = createSlice({
   reducers: {
   },
   extraReducers: (builder) => {
+    builder.addCase(loadMonthData.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(loadMonthData.fulfilled, (state, action) => {
+      state.loading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(loadMonthData.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error;
+    });
+
     builder.addCase(addLabor.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(addLabor.fulfilled, (state, action) => {
       state.loading = false;
-      const target = state.data.find((v) => v.month === state.selectedMonth);
-      target.Labor.push(action.payload);
+      state.data.Labor.push(action.payload);
+      state.data.LaborSum += action.payload.totalCost;
     });
     builder.addCase(addLabor.rejected, (state, action) => {
       state.loading = false;
@@ -99,8 +135,8 @@ export const storeSlice = createSlice({
     });
     builder.addCase(addMaterialCost.fulfilled, (state, action) => {
       state.loading = false;
-      const target = state.data.find((v) => v.month === state.selectedMonth);
-      target.Material.push(action.payload);
+      state.data.Material.push(action.payload);
+      state.data.MaterialSum = action.payload.totalCost;
     });
     builder.addCase(addMaterialCost.rejected, (state, action) => {
       state.loading = false;
@@ -112,8 +148,8 @@ export const storeSlice = createSlice({
     });
     builder.addCase(addRevenue.fulfilled, (state, action) => {
       state.loading = false;
-      const target = state.data.find((v) => v.month === state.selectedMonth);
-      target.Revenue.push(action.payload);
+      state.data.Revenue.push(action.payload);
+      state.data.RevenueSum += action.payload.totalCost;
     });
     builder.addCase(addRevenue.rejected, (state, action) => {
       state.loading = false;
@@ -125,8 +161,8 @@ export const storeSlice = createSlice({
     });
     builder.addCase(addMaintenance.fulfilled, (state, action) => {
       state.loading = false;
-      const target = state.data.find((v) => v.month === state.selectedMonth);
-      target.Maintenance.push(action.payload);
+      state.data.Maintenance.push(action.payload);
+      state.data.MaintenanceSum += action.payload.totalCost;
     });
     builder.addCase(addMaintenance.rejected, (state, action) => {
       state.loading = false;
