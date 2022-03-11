@@ -3,6 +3,8 @@ import { Col, Row, Table } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
 function ResultCost() {
+  // useEffect로 랜더링 될때마다 API호출해서 연매출 연순이익 받아오기
+  // store에서 각월의 매출,순이익 arr를 받아와서 table에 띄우기
   const LaborSum = useSelector((state) => state.store.data.LaborSum);
   const MaintenanceSum = useSelector((state) => state.store.data.MaintenanceSum);
   const MaterialSum = useSelector((state) => state.store.data.MaterialSum);

@@ -11,32 +11,33 @@ import MaintenanceCost from './components/MaintenanceCost';
 import MaterialCost from './components/MaterialCost';
 import ResultCost from './components/ResultCost';
 import RevenueCost from './components/RevenueCost';
-import useInput from './Hooks/useInput';
-import { loadMonthData } from './slice/storeSlice';
+import { loadData } from './slice/storeSlice';
 
 function App() {
+  // 새로운 가게추가 기능 만들기
   const day = dayjs();
-  const [month, setMonth] = useState(day.month() + 1);// 0~11월
   const dispatch = useDispatch();
+  const [month, setMonth] = useState(day.format('YYYY-MM'));// 0~11월
+  const storeName = useSelector((state) => state.store.storeName);
   const onChangeMonth = (event) => {
     event.preventDefault();
-    setMonth(parseInt(event.target.value, 10));
-    dispatch(loadMonthData({ year: 2022, month }));// storeId도 전달
-    // DB에서 데이터를 불러옴
+    setMonth(event.target.value, 10);
+    dispatch(loadData(month));
   };
   useEffect(() => {
-    dispatch(loadMonthData({ year: 2022, month }));
+    dispatch(loadData(month));
   }, []);
   return (
     <AppLayOut>
       <Row>
         <Col className="m-auto">
-          <h4>카페 1번가</h4>
+          <h4>{storeName}</h4>
         </Col>
         <Col>
           <Row>
             <Col>
               <h5>오늘까지 매출 </h5>
+              {/* design을 바꿔서 총가게의 매출로 변경 */}
               <span>123원</span>
             </Col>
 
@@ -51,20 +52,7 @@ function App() {
       </Row>
       <Row>
         <Col md={{ span: 2, offset: 10 }}>
-          <Form.Select onChange={onChangeMonth} value={month}>
-            <option value={1}>1월</option>
-            <option value={2}>2월</option>
-            <option value={3}>3월</option>
-            <option value={4}>4월</option>
-            <option value={5}>5월</option>
-            <option value={6}>6월</option>
-            <option value={7}>7월</option>
-            <option value={8}>8월</option>
-            <option value={9}>9월</option>
-            <option value={10}>10월</option>
-            <option value={11}>11월</option>
-            <option value={12}>12월</option>
-          </Form.Select>
+          <Form.Control type="month" onChange={onChangeMonth} value={month} />
         </Col>
       </Row>
       <Row>

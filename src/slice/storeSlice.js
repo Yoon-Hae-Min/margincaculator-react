@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 
-export const loadMonthData = createAsyncThunk('GET/loadMonthData', async (data, { rejectWithValue }) => {
+export const loadData = createAsyncThunk('GET/loadData', async (data, { rejectWithValue }) => {
   try {
     // axios data를 load하는 코드를 넣어주면됨
     const result = {
-      year: 2022,
-      month: data.month,
+      date: data,
       Labor: [],
       LaborSum: 5,
       Maintenance: [],
@@ -82,10 +81,10 @@ const initialState = {
   loading: false,
   error: null,
   // selectedMonth: 12,
-  storeId: null,
+  storeId: null, // payloadcreate의 getstate로 api시에 전송시켜야함
+  storeName: 'cafe',
   data: {
-    year: 2022,
-    month: 12,
+    date: '2022-03',
     Labor: [],
     LaborSum: 0,
     Maintenance: [],
@@ -105,14 +104,14 @@ export const storeSlice = createSlice({
   reducers: {
   },
   extraReducers: (builder) => {
-    builder.addCase(loadMonthData.pending, (state) => {
+    builder.addCase(loadData.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(loadMonthData.fulfilled, (state, action) => {
+    builder.addCase(loadData.fulfilled, (state, action) => {
       state.loading = false;
       state.data = action.payload;
     });
-    builder.addCase(loadMonthData.rejected, (state, action) => {
+    builder.addCase(loadData.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error;
     });
