@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import {
+  Button, Form, Modal, Spinner,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../Hooks/useInput';
 import { addMaterialCost } from '../slice/storeSlice';
 
 function MaterialCostMoal({ show, handleClose }) {
   const dispatch = useDispatch();
+
+  const loading = useSelector((state) => state.store.materialLoading);
+
   const [name, onChangeName] = useInput();
   const [quantity, setQuantiry] = useState();
 
@@ -39,9 +44,11 @@ function MaterialCostMoal({ show, handleClose }) {
   };
   const onSubmit = (event) => {
     event.preventDefault();
-    dispatch(addMaterialCost({
-      name, quantity, unitCost, totalCost,
-    }));
+    if (loading === false) {
+      dispatch(addMaterialCost({
+        name, quantity, unitCost, totalCost,
+      }));
+    }
   };
   return (
     <Modal show={show} onHide={handleClose} centered>
@@ -72,8 +79,8 @@ function MaterialCostMoal({ show, handleClose }) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" type="submit" onClick={handleClose}>
-            Add
+          <Button variant="primary" type="submit">
+            {loading ? (<Spinner animation="border" variant="primary" />) : 'Add'}
           </Button>
         </Modal.Footer>
       </Form>

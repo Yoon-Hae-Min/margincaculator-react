@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import {
+  Button, Form, Modal, Spinner,
+} from 'react-bootstrap';
 import dayjs from 'dayjs';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../Hooks/useInput';
 import { addRevenue } from '../slice/storeSlice';
 
 function RevenueCostModal({ show, handleClose }) {
   const dispatch = useDispatch();
+
+  const loading = useSelector((state) => state.store.revenueLoading);
+
   const day = dayjs();
   const today = day.format('YYYY-MM-DD');
   const [date, onChangedate] = useInput(today);
   const [totalCost, onChangeTotalCost] = useInput(0);
   const onSubmit = (event) => {
     event.preventDefault();
-    dispatch(addRevenue({ date, totalCost: parseInt(totalCost, 10) }));
+    if (loading === false) {
+      dispatch(addRevenue({ date, totalCost: parseInt(totalCost, 10) }));
+    }
   };
   return (
     <Modal show={show} onHide={handleClose} centered>
@@ -36,8 +43,8 @@ function RevenueCostModal({ show, handleClose }) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" type="submit" onClick={handleClose}>
-            Add
+          <Button variant="primary" type="submit">
+            {loading ? (<Spinner animation="border" variant="primary" />) : 'Add'}
           </Button>
         </Modal.Footer>
       </Form>

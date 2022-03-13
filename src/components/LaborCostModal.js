@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import {
+  Button, Form, Modal, Spinner,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../Hooks/useInput';
 import { addLabor } from '../slice/storeSlice';
 
@@ -9,9 +11,12 @@ function LaborCostModal({ show, handleClose }) {
   const [wage, onChangeWage] = useInput(0);
   const [time, onChangeTime] = useInput(0);
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.store.laborLoading);
   const onSubmit = (event) => {
     event.preventDefault();
-    dispatch(addLabor({ name, wage, time }));
+    if (loading === false) {
+      dispatch(addLabor({ name, wage, time }));
+    }
   };
   return (
 
@@ -39,8 +44,8 @@ function LaborCostModal({ show, handleClose }) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" type="submit" onClick={handleClose}>
-            Add
+          <Button variant="primary" type="submit">
+            {loading ? (<Spinner animation="border" variant="primary" />) : 'Add'}
           </Button>
         </Modal.Footer>
       </Form>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import {
+  Button, Form, Modal, Spinner,
+} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../Hooks/useInput';
 import { addLabor, addMaintenance } from '../slice/storeSlice';
 
@@ -8,9 +10,12 @@ function MaintenanceCostModal({ show, handleClose }) {
   const [name, onChangeName] = useInput();
   const [cost, onChangeCost] = useInput();
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.store.maintenanceLoading);
   const onSubmit = (event) => {
     event.preventDefault();
-    dispatch(addMaintenance({ name, cost: parseInt(cost, 10) }));
+    if (loading === false) {
+      dispatch(addMaintenance({ name, cost: parseInt(cost, 10) }));
+    }
   };
   return (
     <Modal show={show} onHide={handleClose} centered>
@@ -32,8 +37,8 @@ function MaintenanceCostModal({ show, handleClose }) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" type="submit" onClick={handleClose}>
-            Add
+          <Button variant="primary" type="submit">
+            {loading ? (<Spinner animation="border" variant="primary" />) : 'Add'}
           </Button>
         </Modal.Footer>
       </Form>
